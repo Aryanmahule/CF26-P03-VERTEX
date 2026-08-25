@@ -86,4 +86,4 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` in your browser.
+Open `cf-26-p03-vertex-2xew9p2w7-aryanmahule3-1461s-projects.vercel.app` in your browser.
