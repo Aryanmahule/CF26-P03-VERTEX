@@ -1,0 +1,133 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-08-24T00:00:00Z",
+  "role_resolution": {
+    "unresolved_policy": "mark_unresolved_and_flag",
+    "role_dictionary": {
+      "finance": "finance_manager",
+      "finance manager": "finance_manager",
+      "finance lead": "finance_manager",
+      "accounts manager": "finance_manager",
+      "procurement": "procurement_officer",
+      "procurement officer": "procurement_officer",
+      "purchaser": "procurement_officer",
+      "buyer": "procurement_officer",
+      "team lead": "team_lead",
+      "lead": "team_lead",
+      "supervisor": "team_lead",
+      "dept manager": "dept_manager",
+      "department manager": "dept_manager",
+      "line manager": "dept_manager",
+      "finance director": "finance_director",
+      "director of finance": "finance_director",
+      "head of finance": "finance_director",
+      "cfo": "cfo",
+      "finance vp": "cfo",
+      "compliance officer": "compliance_officer",
+      "compliance": "compliance_officer",
+      "auditor": "compliance_officer",
+      "risk analyst": "compliance_officer",
+      "security lead": "security_lead",
+      "security": "security_lead",
+      "security admin": "security_lead",
+      "system admin": "system_admin",
+      "sysadmin": "system_admin",
+      "it admin": "system_admin",
+      "requester": "employee",
+      "employee": "employee",
+      "staff": "employee",
+      "submitter": "employee"
+    }
+  },
+  "authorization": {
+    "segregation_of_duties": [
+      {
+        "id": "sod_verify_approve",
+        "name": "Vendor Verification vs Approval",
+        "action_a": "verify_vendor",
+        "action_b": "approve_procurement",
+        "description": "No single role or actor may both verify the vendor and approve the procurement request."
+      },
+      {
+        "id": "sod_initiate_approve",
+        "name": "Initiator vs Approver",
+        "action_a": "initiate_workflow",
+        "action_b": "approve_procurement",
+        "description": "The requester who initiates the workflow cannot approve their own procurement request."
+      },
+      {
+        "id": "sod_security_compliance",
+        "name": "Security Triage vs Compliance Signoff",
+        "action_a": "grant_access",
+        "action_b": "legal_review",
+        "description": "The security engineer granting access cannot sign off on compliance audits."
+      }
+    ],
+    "spend_threshold_tiers": [
+      {
+        "tier": "Tier 1 - Low Risk",
+        "min_amount": 0.0,
+        "max_amount": 5000.0,
+        "required_role": "team_lead",
+        "required_permission": "approve_level_1"
+      },
+      {
+        "tier": "Tier 2 - Departmental",
+        "min_amount": 5000.01,
+        "max_amount": 15000.0,
+        "required_role": "dept_manager",
+        "required_permission": "approve_procurement"
+      },
+      {
+        "tier": "Tier 3 - Management",
+        "min_amount": 15000.01,
+        "max_amount": 50000.0,
+        "required_role": "finance_manager",
+        "required_permission": "approve_procurement"
+      },
+      {
+        "tier": "Tier 4 - Executive",
+        "min_amount": 50000.01,
+        "max_amount": 250000.0,
+        "required_role": "finance_director",
+        "required_permission": "approve_procurement"
+      },
+      {
+        "tier": "Tier 5 - Board / CFO",
+        "min_amount": 250000.01,
+        "max_amount": 10000000.0,
+        "required_role": "cfo",
+        "required_permission": "*"
+      }
+    ]
+  },
+  "ambiguity_and_confidence": {
+    "blocking_confidence_threshold": 0.60,
+    "warning_confidence_threshold": 0.85,
+    "vague_terms": [
+      "soon",
+      "appropriate",
+      "large purchase",
+      "asap",
+      "reasonable",
+      "timely",
+      "fast",
+      "standard rate",
+      "normal amount",
+      "acceptable",
+      "high value",
+      "low cost"
+    ]
+  },
+  "graph_validity": {
+    "require_single_start": true,
+    "require_terminal_end": true,
+    "disallow_unbounded_cycles": true,
+    "max_retry_limit_default": 5,
+    "require_precondition_chain": true
+  },
+  "branch_completeness": {
+    "require_dual_branch_on_decision": true,
+    "allow_explicit_default_branch": true
+  }
+}
